@@ -1,2 +1,2 @@
-# php_niewiadomo_co
+# django_polls
 
