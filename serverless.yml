@@ -1,0 +1,16 @@
+service: functions
+description: "GitLab Serverless functions using Knative"
+
+provider:
+  name: triggermesh
+  environment:
+    FOO: value
+
+functions:
+  echo-js:
+    handler: echo-js
+    source: ./echo-js
+    runtime: https://gitlab.com/gitlab-org/serverless/runtimes/nodejs
+    description: "node.js runtime function"
+    environment:
+      MY_FUNCTION: echo-js
