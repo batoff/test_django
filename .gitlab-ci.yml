@@ -1,10 +1,22 @@
-include:
-  template: Serverless.gitlab-ci.yml
+stages:
+    - test
+    - build
+    - deploy
+    
+test:
+    stage: test
+    script: echo "Running test"
 
-functions:build:
-  extends: .serverless:build:functions
-  environment: production
+build:
+    stage: build
+    script: echo "Building the app"
 
-functions:deploy:
-  extends: .serverless:deploy:functions
-  environment: production
+test:
+    stage: deploy
+    script: echo "Deploy to stagging server"
+    environment:
+        name: staging
+        url: nputp.pl
+    only:
+    - master
+    
