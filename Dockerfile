@@ -8,16 +8,16 @@ RUN apt-get update \
         sqlite3 \
     && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /usr/src/app
+WORKDIR .
 
-COPY requirements.txt /usr/src/app/
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . /usr/src/app
+COPY . 
 
 # For Django
 EXPOSE 8000
-CMD ["cd mysite", "python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 
 # For some other command
 # CMD ["python", "app.py"]
