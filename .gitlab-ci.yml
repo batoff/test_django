@@ -12,6 +12,14 @@ test:
   - pip3 install -r requirements.txt
   - python3 manage.py test
 
+heroku:
+ stage: deploy
+ only:
+ - master
+ script:
+ - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/nputp.git
+ - git push -f heroku master
+ 
 staging:
   stage: deploy
   script:
