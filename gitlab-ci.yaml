@@ -1,42 +1,33 @@
-image: docker:latest
-services:
-  - docker:dind
- 
-variables:
-  DOCKER_DRIVER: overlay
- 
-stages:
+tages:
   - test
   - deploy
- 
-all-tests:
+
+test:
   stage: test
-  image: python:3.6
   script:
-    - bash ci/install.sh
-    - coverage run --source="gitlab_ci_example,helloworld" manage.py test --noinput -k
-    - coverage report -m
-  coverage: '/TOTAL.+ ([0-9]{1,3}%)/'
- 
-deploy-dev:
+  # this configures Django application to use attached postgres database that is run on `postgres` host
+  - export DATABASE_URL=sqlite://db.sqlite3
+  - apt-get update -qy
+  - apt-get install -y python-dev python-pip
+  - pip install -r requirements.txt
+  - python manage.py test
+
+staging:
   stage: deploy
-  image: kroniak/ssh-client
   script:
-    - 'echo "TODO: Here you can run your deployment process for staging environment."'
+  - apt-get update -qy
+  - apt-get install -y ruby-dev
+  - gem install dpl
+  - dpl --provider=heroku --app=gitlab-ci-python-test-staging --api-key=$HEROKU_STAGING_API_KEY
   only:
-    - dev
-  environment:
-    name: staging
-    url: http://staging.example.com
- 
-deploy-prod:
+  - master
+
+production:
   stage: deploy
-  image: kroniak/ssh-client
   script:
-    - 'echo "TODO: Here you can run your deployment process for production environment."'
+  - apt-get update -qy
+  - apt-get install -y ruby-dev
+  - gem install dpl
+  - dpl --provider=heroku --app=gitlab-ci-python-test-prod --api-key=$HEROKU_PRODUCTION_API_KEY
   only:
-    - master
-  environment:
-    name: production
-    url: http://example.com
-  when: manual
+  - tags
