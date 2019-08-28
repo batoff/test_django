@@ -1,0 +1,42 @@
+image: docker:latest
+services:
+  - docker:dind
+ 
+variables:
+  DOCKER_DRIVER: overlay
+ 
+stages:
+  - test
+  - deploy
+ 
+all-tests:
+  stage: test
+  image: python:3.6
+  script:
+    - bash ci/install.sh
+    - coverage run --source="gitlab_ci_example,helloworld" manage.py test --noinput -k
+    - coverage report -m
+  coverage: '/TOTAL.+ ([0-9]{1,3}%)/'
+ 
+deploy-dev:
+  stage: deploy
+  image: kroniak/ssh-client
+  script:
+    - 'echo "TODO: Here you can run your deployment process for staging environment."'
+  only:
+    - dev
+  environment:
+    name: staging
+    url: http://staging.example.com
+ 
+deploy-prod:
+  stage: deploy
+  image: kroniak/ssh-client
+  script:
+    - 'echo "TODO: Here you can run your deployment process for production environment."'
+  only:
+    - master
+  environment:
+    name: production
+    url: http://example.com
+  when: manual
