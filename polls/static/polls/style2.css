@@ -1,6 +1,11 @@
 ul {
     list-style-type: none;
 }
+
+li
+{
+	color: white;
+}
 li a
 {
 	color: rgb(127, 255, 127);
