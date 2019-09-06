@@ -2,11 +2,12 @@
 from django.http import HttpResponse
 #dodana linia o 404
 from django.shortcuts import get_object_or_404, render
-from django.template import loader
-from django.urls import reverse
-from django.views import generic
 
-from .models import Question
+from django.urls import reverse
+from djnago.views import generic
+
+
+from .models import Choice, Question
 
 #wkleilem aktualizacje widoku index z 3 czesci tutoriala
 #zmiana konczy sie na return templaterender
