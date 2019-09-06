@@ -1,7 +1,11 @@
 li a {
     color: green;
+    text-decoration: none;
+    list-style-type: none;
 }
 
 body {
-    background: white url("images/background.gif") no-repeat;
+	font-family: 'Lato', sans-serif;
+	background: white url("images/background.gif") no-repeat;
+	text-align: center;
 }
